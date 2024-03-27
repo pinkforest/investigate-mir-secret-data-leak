@@ -4,8 +4,9 @@ Simulate "secret data"
 
 ```
 Secret128bit { secret: [u8; 16] }
+```
 
-This would leak timing:
+This would leak timing as it decides code execution flow based on secret data in for loop:
 
 ```
 check_eq_vartime(&[u8; 16])
