@@ -1,25 +1,21 @@
 use dudect_bencher::rand::Rng;
 use dudect_bencher::{ctbench_main, BenchRng, Class, CtRunner};
 
-fn rand_u8_200(rng: &mut BenchRng) -> [u8; 200] {
-    let mut arr = [0; 200];
+#[cfg(arr_size = "100")]
+fn rand_u8_100(rng: &mut BenchRng) -> [u8; 100] {
+    let mut arr = [0; 100];
     rng.fill(arr.as_mut_slice());
     arr
 }
 
+#[cfg(not(arr_size = "100"))]
 fn rand_u8_16(rng: &mut BenchRng) -> [u8; 16] {
     let mut arr = [0; 16];
     rng.fill(arr.as_mut_slice());
     arr
 }
 
-fn rand_vec(len: usize, rng: &mut BenchRng) -> Vec<u8> {
-    let mut arr = vec![0u8; len];
-    rng.fill(arr.as_mut_slice());
-    arr
-}
-
-fn eq_vartime_yes(runner: &mut CtRunner, rng: &mut BenchRng) {
+fn eq_sodium_terrible_imitation(runner: &mut CtRunner, rng: &mut BenchRng) {
     let mut inputs: Vec<([u8; 16], [u8; 16])> = Vec::new();
     let mut classes = Vec::new();
 
@@ -52,4 +48,4 @@ fn eq_vartime_yes(runner: &mut CtRunner, rng: &mut BenchRng) {
 }
 
 // Crate the main function to include the bench for vec_eq
-ctbench_main!(eq_vartime_yes);
+ctbench_main!(eq_sodium_terrible_imitation);
