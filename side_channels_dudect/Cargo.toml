@@ -1,0 +1,12 @@
+[package]
+name = "side_channels_dudect"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+side_channels = { path = "../side_channels" }
+dudect-bencher = "0.6"
+
+[dev-dependencies]
