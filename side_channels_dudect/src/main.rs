@@ -47,7 +47,7 @@ fn eq_vartime_yes(runner: &mut CtRunner, rng: &mut BenchRng) {
     for (class, (u, v)) in classes.into_iter().zip(inputs.into_iter()) {
         let cmp = side_channels::Secret128bit { secret: u };
 
-        runner.run_one(class, || cmp.check_eq_vartime(&v));
+        runner.run_one(class, || cmp.check_eq_sodium_terrible_imitation(&v));
     }
 }
 

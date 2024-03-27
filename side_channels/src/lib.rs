@@ -20,6 +20,16 @@ impl Secret128bit {
         }
         true
     }
+    /// who knows - this is just a terrible random imitation of sodium_memcmp ^o^
+    pub fn check_eq_sodium_terrible_imitation(&self, input: &[u8; ARR_SIZE]) -> i16 {
+        let mut d = 0;
+        let start = 1;
+
+        for i in start..ARR_SIZE + 1 {
+            d |= input[i - 1] ^ self.secret[i - 1];
+        }
+        (1 as i16 & ((d as i16 - 1) >> 8)) - 1
+    }
 }
 
 #[cfg(all(not(arr_size = "100"), test))]
@@ -32,6 +42,24 @@ mod test_eq16 {
             secret: *b"1234567890abcdef",
         };
         assert!(checker.check_eq_vartime(&against));
+    }
+
+    #[test]
+    fn eq16_sodium_bad_imitation_all() {
+        let against: [u8; 16] = *b"1234567890abcdef";
+        let checker = super::Secret128bit {
+            secret: *b"1234567890abcdef",
+        };
+        assert_eq!(checker.check_eq_sodium_bad_imitation(&against), 0 as i16);
+    }
+
+    #[test]
+    fn eq16_sodium_bad_imitation_lastbyte_wrong() {
+        let against: [u8; 16] = *b"1234567890abcdee";
+        let secret: [u8; 16] = *b"1234567890abcdef";
+        let checker = super::Secret128bit { secret };
+        assert_ne!(against, secret);
+        assert_eq!(checker.check_eq_sodium_bad_imitation(&against), -1 as i16);
     }
 
     #[test]
